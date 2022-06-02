@@ -1,25 +1,53 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import SearchBar from './components/SearchBar';
+import VideoList from './components/videos/VideoList';
+import VideoDetail from './components/videos/VideoDetail';
+import YTSearch from 'youtube-api-search';
 
-function App() {
-  return (
+const API_KEY = process.env.REACT_APP_API_KEY;
+
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      videos: [] ,
+      videoSelected: null,
+    };
+
+    this.videoSearch('dancing');
+
+  }
+
+  async videoSearch(term) {
+    await YTSearch({key: API_KEY, term: term}, (videos) => {
+      
+      this.setState({
+        videos: videos,
+        videoSelected: videos[0]
+      }) // when key and property are the same variable name
+      // this.setState({videos: videos})
+      console.log(videos)
+    });
+  }
+
+  render() {
+    return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <SearchBar onSearchTerm={term => this.videoSearch(term)}/>
+      <VideoDetail video={this.state.videoSelected}/>
+      <VideoList 
+        onSelectVideo={videoSelected => this.setState({videoSelected: videoSelected})}
+        videos={this.state.videos}/>
     </div>
   );
+  }
 }
 
 export default App;
+
+
+
+
