@@ -7,6 +7,7 @@ This project enables you to search for youtube videos based of the udemy tutoria
 - Create user accounts
 - Add authentication
 - Add commenting by user
+- Persist comments to a database
 - Add personal video upload catalog
 - Add Non youtube video catalog
 
