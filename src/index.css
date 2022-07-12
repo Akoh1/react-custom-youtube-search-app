@@ -25,6 +25,12 @@ code {
   max-width: 64px;
 }
 
+/*
+.video-detail {
+    width: 100px;
+}
+*/
+
 .videp-detail .details {
   margin-top: 10px;
   padding: 10px;
@@ -34,10 +40,21 @@ code {
 
 .list-group-item {
   cursor: pointer;
+
 }
 
 .list-group-item:hover {
   background-color: #eee;
+}
+
+/*
+.list-group {
+    width: 100%;
+}
+*/
+
+.detail-list {
+    width: 100%;
 }
 
 /*.comment-area {
@@ -46,7 +63,7 @@ code {
 .coment-content {
   float: left;
  /* border: 1px solid #ddd;*/
-  width: 100%;
+  width: 90%;
   margin-top: 30px;
 }
 
@@ -56,6 +73,13 @@ code {
   text-align: left;
   margin-bottom: 20px;
 }
+
+/*
+.custom-link {
+    float: right;
+    margin-right: 100px;
+}
+*/
 
 
 

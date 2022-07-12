@@ -3,6 +3,7 @@ import './App.css';
 import SearchBar from './components/SearchBar';
 import VideoList from './components/videos/VideoList';
 import VideoDetail from './components/videos/VideoDetail';
+import HeaderNav from './components/HeaderNav';
 import YTSearch from 'youtube-api-search';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
@@ -36,11 +37,14 @@ class App extends Component {
   render() {
     return (
     <div className="App">
+        <HeaderNav/>
       <SearchBar onSearchTerm={term => this.videoSearch(term)}/>
+        <div className="row detail-list">
       <VideoDetail video={this.state.videoSelected}/>
       <VideoList 
         onSelectVideo={videoSelected => this.setState({videoSelected: videoSelected})}
         videos={this.state.videos}/>
+        </div>
     </div>
   );
   }
