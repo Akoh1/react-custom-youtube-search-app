@@ -1,10 +1,27 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
 // const SearchBar = () => {
 //   return <input />
 // };
 
-class SearchBar extends Component {
+function SearchBar(props) {
+    const [term, setTerm] = useState("");
+    
+    const searchValue = () => {
+        props.onSearchTerm(term)
+    };
+    
+    return (
+        <div className="search-bar">
+          <input value={term} onChange={e => setTerm(e.target.value)}/>
+          <button 
+          className="btn btn-outline-secondary" 
+          type="button" onClick={searchValue}><i className="bi bi-search"></i></button>
+        </div>
+    );
+}
+
+{/*class SearchBar extends Component {
   constructor(props) {
     super(props);
 
@@ -40,6 +57,6 @@ class SearchBar extends Component {
       );
      }
 
-}
+}*/}
 
 export default SearchBar;
