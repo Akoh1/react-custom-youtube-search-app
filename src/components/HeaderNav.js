@@ -1,7 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Outlet, Link } from "react-router-dom";
+import HomeContext from ".././Context";
 
-function HeaderNav () {
+function HeaderNav (props) {
+    
+    const setLoggedIn = useContext(HomeContext);
+  
+    
+    const logOut = () => {
+        console.log("Logout");
+        setLoggedIn(false);
+    }
+   
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -15,8 +25,24 @@ function HeaderNav () {
                 <ul className="navbar-nav mr-auto">
 
                 </ul>
-                  {/*<button className="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>*/}
-                  <Link to="/login">Login</Link>
+                 
+                  {
+                     props.loggedIn === true ? 
+                         <ul className="navbar-nav">
+                             <li className="nav-item dropdown">
+                                <a className="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  Dropdown link
+                                </a>
+                                <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                 {/* <a class="dropdown-item" href="#">Action</a>*/}
+                                  <button className="btn btn-outline-success my-2 my-sm-0 dropdown-item" type="submit" onClick={logOut}>Logout</button>
+                                </div>
+                              </li>
+                            </ul>
+                         
+                         : <Link to="/login">Login</Link>
+                  }
+                 
               </div>
             </nav>
             <Outlet />

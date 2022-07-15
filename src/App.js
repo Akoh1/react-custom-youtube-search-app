@@ -1,16 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createContext } from 'react';
 import './App.css';
 import SearchBar from './components/SearchBar';
 import VideoList from './components/videos/VideoList';
 import VideoDetail from './components/videos/VideoDetail';
 import HeaderNav from './components/HeaderNav';
 import YTSearch from 'youtube-api-search';
+import { useLocation } from "react-router-dom";
+import HomeContext from "./Context";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
+
+//const HomeContext = React.createContext();
 
 function App() {
     const [videos, setVideos] = useState([]);
     const [videoSelected, setVideoSelected] = useState();
+    const loginLocation = useLocation();
+    const logIn = loginLocation.state;
+    
+    const [loggedIn, setLoggedIn] = useState(logIn);
+    console.log("login location value: " + loggedIn);
 
 
   const videoSearch = async (term) => {
@@ -27,23 +36,26 @@ function App() {
       setVideoSelected(vid);
   }
   
+  
   useEffect(() => {
-      
+//      setLoggedIn(loginLocation.state);
       videoSearch('dancing');
         
-    }, []);
+    }, [loginLocation]);
 
     return (
-    <div className="App">
-        <HeaderNav/>
-      <SearchBar onSearchTerm={term => videoSearch(term)}/>
-        <div className="row detail-list">
-      <VideoDetail video={videoSelected}/>
-      <VideoList 
-        onSelectVideo={videoselected => onVideoSelected(videoselected)}
-        videos={videos}/>
-        </div>
-    </div>
+        <HomeContext.Provider value={setLoggedIn}>
+            <div className="App">
+                <HeaderNav loggedIn={loggedIn}/>
+              <SearchBar onSearchTerm={term => videoSearch(term)}/>
+                <div className="row detail-list">
+              <VideoDetail video={videoSelected}/>
+              <VideoList 
+                onSelectVideo={videoselected => onVideoSelected(videoselected)}
+                videos={videos}/>
+                </div>
+            </div>
+        </HomeContext.Provider>
   );
 
 }

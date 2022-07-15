@@ -1,22 +1,34 @@
 import React, { useState } from 'react';
 import HeaderNav from "../HeaderNav";
-import { Outlet, Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 function Login() {
     const [emailVal, setEmailVal] = useState("");
     const [passwordVal, setPasswordVal] = useState("");
+    const [userDetails, setUserDetails] = useState(true);
+//    const [loggedIn, setLoggedIn] = useState(false);
+    const navigate = useNavigate();
     
     let userdata = {
-        email: "akohsamuel018@gmail.com",
+        email: "test@gmail.com",
         password: "test"
+    }
+    
+    const closeAlert = () => {
+        setUserDetails(true);
     }
     
     const logIn = (ev) => {
        ev.preventDefault(); 
-       const keys = Object.keys(userdata);
         
         if (userdata.email === emailVal && userdata.password === passwordVal) {
-            console.log("Details correct")
+            console.log("Details correct");
+//            setLoggedIn(true);
+            navigate('/', {replace: true, state: true});
+
+        }
+        else {
+            setUserDetails(false);
         }
     }
     
@@ -25,6 +37,15 @@ function Login() {
         <HeaderNav/>
         <div className="container">
         <h2>Log in</h2>
+        {
+            userDetails === false &&
+                <div className="alert alert-warning alert-dismissible fade show" role="alert">
+                  <strong>Your details are incorrect!</strong>
+                  <button type="button" className="close" data-dismiss="alert" aria-label="Close" onClick={closeAlert}>
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+        }
         <form onSubmit={logIn}>
           <div className="form-group">
             <label htmlFor="email">Email address</label>
