@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import SearchBar from './components/SearchBar';
 import VideoList from './components/videos/VideoList';
@@ -8,8 +8,46 @@ import YTSearch from 'youtube-api-search';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
+function App() {
+    const [videos, setVideos] = useState([]);
+    const [videoSelected, setVideoSelected] = useState();
 
-class App extends Component {
+
+  const videoSearch = async (term) => {
+    await YTSearch({key: API_KEY, term: term}, (videoList) => {
+        setVideos(videoList);
+        setVideoSelected(videoList[0])
+      
+      
+        console.log(videoList)
+    });
+  }
+  
+  const onVideoSelected = (vid) => {
+      setVideoSelected(vid);
+  }
+  
+  useEffect(() => {
+      
+      videoSearch('dancing');
+        
+    }, []);
+
+    return (
+    <div className="App">
+        <HeaderNav/>
+      <SearchBar onSearchTerm={term => videoSearch(term)}/>
+        <div className="row detail-list">
+      <VideoDetail video={videoSelected}/>
+      <VideoList 
+        onSelectVideo={videoselected => onVideoSelected(videoselected)}
+        videos={videos}/>
+        </div>
+    </div>
+  );
+
+}
+{/*class App extends Component {
   constructor(props) {
     super(props);
 
@@ -49,6 +87,7 @@ class App extends Component {
   );
   }
 }
+*/}
 
 export default App;
 
